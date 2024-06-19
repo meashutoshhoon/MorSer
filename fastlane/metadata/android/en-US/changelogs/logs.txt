@@ -1,0 +1,8 @@
+-> V1.0(1)
+-Material Design 3 (You)
+-Dark and light theme
+-Text to Morse code converter and vice versa
+-Simple user friendly app
+-Small app size
+-Predictive back gesture
+-Written in Jetpack Compose
