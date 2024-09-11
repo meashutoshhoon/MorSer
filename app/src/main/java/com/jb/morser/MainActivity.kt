@@ -1,6 +1,7 @@
 package com.jb.morser
 
 import android.os.Bundle
+import android.view.HapticFeedbackConstants
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -45,22 +46,23 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.jb.morser.App.Companion.applicationScope
 import com.jb.morser.ui.enums.ThemeMode
 import com.jb.morser.ui.model.ThemeModel
 import com.jb.morser.ui.theme.MorSerTheme
 import com.jb.morser.ui.util.Converter
-import com.jb.morser.ui.util.Preferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
 
-
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
@@ -76,29 +78,14 @@ class MainActivity : ComponentActivity() {
             ) {
 
                 val isDarkTheme = themeModel.themeMode == ThemeMode.DARK
+                val view = LocalView.current
 
                 val themeShifter = {
-                    if (isDarkTheme) {
-                        applicationScope.launch(Dispatchers.IO) {
-                            themeModel.themeMode = ThemeMode.entries.toTypedArray()[1]
-                            Preferences.edit {
-                                putString(
-                                    Preferences.THEME_MODE, ThemeMode.entries[1].name
-                                )
-                            }
-                        }
-                    } else {
-                        applicationScope.launch(Dispatchers.IO) {
-                            themeModel.themeMode = ThemeMode.entries.toTypedArray()[2]
-                            Preferences.edit {
-                                putString(
-                                    Preferences.THEME_MODE, ThemeMode.entries[2].name
-                                )
-                            }
-                        }
+                    applicationScope.launch(Dispatchers.IO) {
+                        val newThemeMode = if (isDarkTheme) ThemeMode.LIGHT else ThemeMode.DARK
+                        themeModel.updateThemeMode(newThemeMode)  // Update the theme mode using the new function
                     }
                 }
-
 
                 Surface(
                     modifier = Modifier
@@ -108,7 +95,12 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Scaffold(topBar = {
                         CenterAlignedTopAppBar(title = { Text(text = "MorSer") }, actions = {
-                            IconButton(onClick = { themeShifter() }) {
+                            IconButton(
+                                onClick = {
+                                    view.performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK)
+                                    themeShifter()
+                                }
+                            ) {
                                 Icon(
                                     imageVector = if (isDarkTheme) Icons.Rounded.DarkMode else Icons.Rounded.LightMode,
                                     contentDescription = "Theme Change"
