@@ -10,11 +10,13 @@ plugins {
 val keystorePropertiesFile: File = rootProject.file("keystore.properties")
 
 android {
+    compileSdk = 35
+
     if (keystorePropertiesFile.exists()) {
         val keystoreProperties = Properties()
         keystoreProperties.load(FileInputStream(keystorePropertiesFile))
         signingConfigs {
-            getByName("debug") {
+            create("githubPublish") {
                 keyAlias = keystoreProperties["keyAlias"].toString()
                 keyPassword = keystoreProperties["keyPassword"].toString()
                 storeFile = file(keystoreProperties["storeFile"]!!)
@@ -23,19 +25,38 @@ android {
         }
     }
 
-    compileSdk = 34
+    buildFeatures { buildConfig = true }
 
     defaultConfig {
         applicationId = "com.jb.morser"
         minSdk = 21
-        targetSdk = 34
-        versionCode = 2
+        targetSdk = 35
+        versionCode = 3
 
         versionName = rootProject.extra["versionName"] as String
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
+        vectorDrawables { useSupportLibrary = true }
+    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
+            if (keystorePropertiesFile.exists()) {
+                signingConfig = signingConfigs.getByName("githubPublish")
+            }
+        }
+        debug {
+            if (keystorePropertiesFile.exists()) {
+                signingConfig = signingConfigs.getByName("githubPublish")
+            }
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-debug"
+            resValue("string", "app_name", "Morser Debug")
         }
     }
 
@@ -46,39 +67,14 @@ android {
         }
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = true
-            isShrinkResources = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
-            )
-            if (keystorePropertiesFile.exists()) signingConfig = signingConfigs.getByName("debug")
-        }
+    kotlinOptions { freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn" }
 
-        debug {
-            if (keystorePropertiesFile.exists()) signingConfig = signingConfigs.getByName("debug")
-        }
-    }
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn"
-    }
-
-    buildFeatures {
-        buildConfig = true
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
+    packaging { resources { excludes += "/META-INF/{AL2.0,LGPL2.1}" } }
 
     namespace = "com.jb.morser"
 }
 
-kotlin {
-    jvmToolchain(21)
-}
+kotlin { jvmToolchain(21) }
 
 dependencies {
 

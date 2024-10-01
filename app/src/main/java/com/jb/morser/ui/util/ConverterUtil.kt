@@ -35,12 +35,10 @@ class Converter {
                     val alpha = MORSE_TO_ALPHA[letter]
                     builder.append(alpha)
                 }
-
                 builder.append(" ")
             }
 
             return builder.toString().uppercase(Locale.getDefault())
-
         }
 
         fun alphaToMorse(englishCode: String): String {
@@ -52,7 +50,6 @@ class Converter {
                     val morse = ALPHA_TO_MORSE[word.substring(i, i + 1).lowercase(Locale.getDefault())]
                     builder.append("$morse ")
                 }
-
                 builder.append("  ")
             }
 

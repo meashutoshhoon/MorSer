@@ -83,7 +83,7 @@ class MainActivity : ComponentActivity() {
                 val themeShifter = {
                     applicationScope.launch(Dispatchers.IO) {
                         val newThemeMode = if (isDarkTheme) ThemeMode.LIGHT else ThemeMode.DARK
-                        themeModel.updateThemeMode(newThemeMode)  // Update the theme mode using the new function
+                        themeModel.updateThemeMode(newThemeMode)
                     }
                 }
 
@@ -93,21 +93,25 @@ class MainActivity : ComponentActivity() {
                         .imePadding(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Scaffold(topBar = {
-                        CenterAlignedTopAppBar(title = { Text(text = "MorSer") }, actions = {
-                            IconButton(
-                                onClick = {
-                                    view.performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK)
-                                    themeShifter()
-                                }
-                            ) {
-                                Icon(
-                                    imageVector = if (isDarkTheme) Icons.Rounded.DarkMode else Icons.Rounded.LightMode,
-                                    contentDescription = "Theme Change"
-                                )
-                            }
-                        })
-                    }) {
+                    Scaffold(
+                        topBar = {
+                            CenterAlignedTopAppBar(
+                                title = { Text(text = "MorSer") },
+                                actions = {
+                                    IconButton(
+                                        onClick = {
+                                            view.performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK)
+                                            themeShifter()
+                                        },
+                                    ) {
+                                        Icon(
+                                            imageVector = if (isDarkTheme) Icons.Rounded.DarkMode else Icons.Rounded.LightMode,
+                                            contentDescription = "Theme Change"
+                                        )
+                                    }
+                                },
+                            )
+                        }) {
                         CenterScreen(
                             modifier = Modifier.padding(it)
                         )
@@ -210,16 +214,21 @@ fun CenterScreen(
                     .padding(10.dp, 5.dp)
                     .fillMaxWidth()
                     .heightIn(min = 100.dp),
-                shape = RoundedCornerShape(16.dp)
+                shape = RoundedCornerShape(16.dp),
             ) {
-                Text(text = result, modifier = Modifier
-                    .padding(8.dp)
-                    .pointerInput(Unit) {
-                        detectTapGestures(onLongPress = {
-                            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                            clipboardManager.setText(AnnotatedString(result))
-                        })
-                    })
+                Text(
+                    text = result,
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .pointerInput(Unit) {
+                            detectTapGestures(
+                                onLongPress = {
+                                    hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                                    clipboardManager.setText(AnnotatedString(result))
+                                },
+                            )
+                        },
+                )
             }
         }
 
