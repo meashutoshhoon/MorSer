@@ -7,6 +7,6 @@ enum class ThemeMode {
     SYSTEM, LIGHT, DARK;
 
     companion object {
-        fun getCurrent() = valueOf(Preferences.getString(THEME_MODE, SYSTEM.name))
+        val current: ThemeMode = valueOf(Preferences.getString(THEME_MODE, SYSTEM.name))
     }
 }
