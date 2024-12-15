@@ -33,7 +33,7 @@ android {
         applicationId = "com.jb.morser"
         minSdk = 21
         targetSdk = 35
-        versionCode = 4
+        versionCode = 5
 
         versionName = baseVersionName
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

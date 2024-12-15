@@ -1,6 +1,6 @@
 [versions]
-androidGradlePlugin = "8.7.2"
-androidxComposeBom = "2024.11.00"
+androidGradlePlugin = "8.7.3"
+androidxComposeBom = "2024.12.01"
 androidxCore = "1.15.0"
 androidMaterial = "1.12.0"
 androidxActivity = "1.9.3"
@@ -48,11 +48,9 @@ compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "
 androidxCompose = ["androidx-compose-ui",
     "androidx-compose-ui-tooling-preview",
     "androidx-compose-material-iconsExtended",
-    "androidx-compose-material3"
-]
+    "androidx-compose-material3"]
 
 core = ["androidx-activity-compose",
     "androidx-splashscreen",
     "android-material",
-    "androidx-core-ktx"
-]
+    "androidx-core-ktx"]
