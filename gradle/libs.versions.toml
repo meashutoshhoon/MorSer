@@ -1,19 +1,21 @@
 [versions]
-androidGradlePlugin = "8.7.3"
-androidxComposeBom = "2024.12.01"
-androidxCore = "1.15.0"
+androidGradlePlugin = "8.11.0"
+androidxComposeBom = "2025.06.01"
+androidxCore = "1.16.0"
 androidMaterial = "1.12.0"
-androidxActivity = "1.9.3"
+androidxActivity = "1.10.1"
 androidxSplashscreen = "1.0.1"
 
-androidxLifecycle = "2.8.7"
+androidxLifecycle = "2.9.1"
 
 androidxEspresso = "3.6.1"
 androidxTestExt = "1.2.1"
 
+material3 = "1.4.0-alpha16"
+
 junit4 = "4.13.2"
 
-kotlin = "2.0.21"
+kotlin = "2.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
@@ -28,7 +30,7 @@ androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", versi
 androidx-compose-material-iconsExtended = { group = "androidx.compose.material", name = "material-icons-extended" }
 androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
 
-androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
 
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }

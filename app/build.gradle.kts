@@ -12,7 +12,7 @@ val keystorePropertiesFile: File = rootProject.file("keystore.properties")
 val baseVersionName = currentVersion.name
 
 android {
-    compileSdk = 35
+    compileSdk = 36
 
     if (keystorePropertiesFile.exists()) {
         val keystoreProperties = Properties()
@@ -32,7 +32,7 @@ android {
     defaultConfig {
         applicationId = "com.jb.morser"
         minSdk = 21
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 5
 
         versionName = baseVersionName
@@ -69,7 +69,11 @@ android {
         }
     }
 
-    kotlinOptions { freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn" }
+    kotlin {
+        compilerOptions {
+            optIn.add("kotlin.RequiresOptIn")
+        }
+    }
 
     packaging { resources { excludes += "/META-INF/{AL2.0,LGPL2.1}" } }
 
